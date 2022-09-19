@@ -1,5 +1,17 @@
 # vscode-jwt-decoder
 
+![.github/workflows/codeql-analysis](https://github.com/arbs-io/vscode-jwt-decoder/actions/workflows/codeql-analysis.yml/badge.svg)
+![.github/workflows/vsix-package](https://github.com/arbs-io/vscode-jwt-decoder/actions/workflows/vsix-package.yaml/badge.svg)
+[![Known Vulnerabilities](https://snyk.io/test/github/arbs-io/vscode-jwt-decoder/badge.svg)](https://snyk.io/test/github/arbs-io/vscode-jwt-decoder)
+
+![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/AndrewButson.vscode-jwt-decoder)
+![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/AndrewButson.vscode-jwt-decoder)
+![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/AndrewButson.vscode-jwt-decoder)
+![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/AndrewButson.vscode-jwt-decoder)
+
+[![GitHub issues](https://img.shields.io/github/issues/arbs-io/vscode-jwt-decoder.svg)](https://github.com/arbs-io/vscode-jwt-decoder/issues)
+[![GitHub license](https://img.shields.io/github/license/arbs-io/vscode-jwt-decoder.svg)](https://github.com/arbs-io/vscode-jwt-decoder/blob/master/LICENSE.md)
+
 This vscode extension detects jwt and provides a quick access decoder. The vscode-jwt-decoder extension has been created to avoid copying live tokens to random websites. This extension works locally, and **DATA NEVER LEAVES YOUR MACHINE**
 
 ## What is a JWT?
