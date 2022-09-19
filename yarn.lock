@@ -72,7 +72,7 @@
   "resolved" "https://registry.npmjs.org/@types/node/-/node-18.7.18.tgz"
   "version" "18.7.18"
 
-"@types/vscode@^1.71.0":
+"@types/vscode@^1.42.0":
   "integrity" "sha512-nB50bBC9H/x2CpwW9FzRRRDrTZ7G0/POttJojvN/LiVfzTGfLyQIje1L1QRMdFXK9G41k5UJN/1B9S4of7CSzA=="
   "resolved" "https://registry.npmjs.org/@types/vscode/-/vscode-1.71.0.tgz"
   "version" "1.71.0"
