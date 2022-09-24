@@ -38,7 +38,7 @@ export class JwtDecode {
         output += '='
         break
       default:
-        throw 'Illegal base64url string!'
+        throw new Error(`invalid base64url string`)
     }
 
     try {

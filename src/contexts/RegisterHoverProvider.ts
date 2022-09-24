@@ -7,8 +7,6 @@ export function RegisterHoverProvider(context: ExtensionContext) {
     languages.registerHoverProvider('jwt', {
       provideHover(document, position, token) {
         const range = document.getWordRangeAtPosition(position)
-        const word = document.getText(range)
-
         const docHash = StringHash(document.uri.toString())
         const storageManager = new LocalStorageService(context.workspaceState)
         const storageKey =
