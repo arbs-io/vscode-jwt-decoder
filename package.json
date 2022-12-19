@@ -2,7 +2,7 @@
   "name": "vscode-jwt-decoder",
   "displayName": "vscode-jwt-decoder",
   "description": "A vscode extension to locally debugging jwt token",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -105,13 +105,13 @@
     "deploy": "vsce publish --yarn"
   },
   "devDependencies": {
-    "@types/node": "^18.7.18",
+    "@types/node": "^18.11.17",
     "@types/vscode": "^1.42.0",
-    "@typescript-eslint/eslint-plugin": "^5.38.0",
-    "@typescript-eslint/parser": "^5.38.0",
-    "esbuild": "^0.15.8",
-    "eslint": "^8.23.1",
-    "typescript": "^4.8.3",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "esbuild": "^0.16.9",
+    "eslint": "^8.30.0",
+    "typescript": "^4.9.4",
     "vsce": "^2.11.0"
   }
 }
