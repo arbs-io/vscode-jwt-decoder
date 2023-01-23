@@ -8,8 +8,8 @@ import {
   ExtensionContext,
 } from 'vscode'
 
-import { JwtDecode } from '../utilities/JwtDecode'
-import { StringHash } from '../utilities/StringHash'
+import { JwtDecoder } from '../utils/jwtDecoder'
+import { stringHash } from '../utils/stringHash'
 import { LocalStorageService } from '../services/LocalStorageService'
 
 const tokenTypes = new Map<string, number>()
@@ -18,11 +18,11 @@ const tokenTypesLegend = ['jwt_joseHeader', 'jwt_claimsSet', 'jwt_signature']
 export class JwtDocumentSemanticTokensProvider
   implements DocumentSemanticTokensProvider
 {
-  context: ExtensionContext
-  jwtDecode: JwtDecode | undefined
+  _context: ExtensionContext
+  _jwtDecode: JwtDecoder | undefined
 
   constructor(context: ExtensionContext) {
-    this.context = context
+    this._context = context
   }
 
   legend = (function () {
@@ -47,15 +47,15 @@ export class JwtDocumentSemanticTokensProvider
       )
     })
 
-    const docHash = StringHash(document.uri.toString())
-    const storageManager = new LocalStorageService(this.context.workspaceState)
+    const docHash = stringHash(document.uri.toString())
+    const storageManager = new LocalStorageService(this._context.workspaceState)
     storageManager.setValue<object | undefined>(
       `joseHeader_${docHash}`,
-      this.jwtDecode?.joseHeader
+      this._jwtDecode?.joseHeader
     )
     storageManager.setValue<object | undefined>(
       `claimsSet_${docHash}`,
-      this.jwtDecode?.claimset
+      this._jwtDecode?.claimset
     )
 
     return builder.build()
@@ -81,7 +81,7 @@ export class JwtDocumentSemanticTokensProvider
         const currentOffset = 0
         let tokenIndex = 0
 
-        this.jwtDecode = new JwtDecode(line)
+        this._jwtDecode = new JwtDecoder(line)
 
         parts.forEach((element) => {
           const openOffset = line.indexOf(element, currentOffset)

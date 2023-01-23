@@ -1,6 +1,6 @@
 import { commands, ExtensionContext, Uri, window, workspace } from 'vscode'
 import { LocalStorageService } from '../services/LocalStorageService'
-import { StringHash } from '../utilities/StringHash'
+import { stringHash } from '../utils/stringHash'
 
 export function RegisterCommand(context: ExtensionContext) {
   showPreviewDecoded(context)
@@ -10,7 +10,7 @@ export function RegisterCommand(context: ExtensionContext) {
 function showPreviewDecoded(context: ExtensionContext) {
   const command = 'jwt.showPreviewDecoded'
   const commandHandler = (uri: Uri) => {
-    const docHash = StringHash(uri.toString())
+    const docHash = stringHash(uri.toString())
 
     const storageManager = new LocalStorageService(context.workspaceState)
     const claimSet = storageManager.getValue<object>(`claimsSet_${docHash}`)
