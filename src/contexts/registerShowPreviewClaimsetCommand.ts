@@ -1,10 +1,10 @@
-import { commands, ExtensionContext, Uri, window, workspace } from 'vscode'
+import { commands, ExtensionContext, Uri, window } from 'vscode'
 
 export function registerShowPreviewClaimsetCommand(context: ExtensionContext) {
-  _showPreviewClaimset(context)
+  _registerCommand(context)
 }
 
-function _showPreviewClaimset(context: ExtensionContext) {
+function _registerCommand(context: ExtensionContext) {
   const command = 'jwt.showPreviewClaimset'
   const commandHandler = (uri: Uri) => {
     window.showInformationMessage('Claimset: Coming soon...')

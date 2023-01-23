@@ -3,10 +3,10 @@ import { LocalStorageService } from '../services/storageService'
 import { stringHash } from '../utils/stringHash'
 
 export function registerShowPreviewDecodedCommand(context: ExtensionContext) {
-  _showPreviewDecoded(context)
+  _registerCommand(context)
 }
 
-function _showPreviewDecoded(context: ExtensionContext) {
+function _registerCommand(context: ExtensionContext) {
   const command = 'jwt.showPreviewDecoded'
   const commandHandler = (uri: Uri) => {
     const docHash = stringHash(uri.toString())
