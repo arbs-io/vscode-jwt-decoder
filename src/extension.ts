@@ -1,7 +1,7 @@
 import { ExtensionContext } from 'vscode'
 import { RegisterCommand } from './contexts/RegisterCommand'
-import { RegisterDocumentSemanticTokensProvider } from './contexts/RegisterDocumentSemanticTokensProvider'
-import { RegisterHoverProvider } from './contexts/RegisterHoverProvider'
+import { RegisterDocumentSemanticTokensProvider } from './providers/RegisterDocumentSemanticTokensProvider'
+import { RegisterHoverProvider } from './providers/RegisterHoverProvider'
 
 export function activate(context: ExtensionContext) {
   RegisterDocumentSemanticTokensProvider(context)

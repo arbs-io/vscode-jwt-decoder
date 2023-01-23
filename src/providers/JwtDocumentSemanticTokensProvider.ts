@@ -10,7 +10,7 @@ import {
 
 import { JwtDecoder } from '../utils/jwtDecoder'
 import { stringHash } from '../utils/stringHash'
-import { LocalStorageService } from '../services/LocalStorageService'
+import { LocalStorageService } from '../services/storageService'
 
 const tokenTypes = new Map<string, number>()
 const tokenTypesLegend = ['jwt_joseHeader', 'jwt_claimsSet', 'jwt_signature']

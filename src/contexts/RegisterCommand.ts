@@ -1,5 +1,5 @@
 import { commands, ExtensionContext, Uri, window, workspace } from 'vscode'
-import { LocalStorageService } from '../services/LocalStorageService'
+import { LocalStorageService } from '../services/storageService'
 import { stringHash } from '../utils/stringHash'
 
 export function RegisterCommand(context: ExtensionContext) {

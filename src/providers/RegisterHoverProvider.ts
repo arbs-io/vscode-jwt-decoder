@@ -1,5 +1,5 @@
 import { languages, ExtensionContext, Hover } from 'vscode'
-import { LocalStorageService } from '../services/LocalStorageService'
+import { LocalStorageService } from '../services/storageService'
 import { stringHash } from '../utils/stringHash'
 
 export function RegisterHoverProvider(context: ExtensionContext) {

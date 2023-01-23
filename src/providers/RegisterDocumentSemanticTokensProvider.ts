@@ -1,5 +1,5 @@
 import { languages, ExtensionContext } from 'vscode'
-import { JwtDocumentSemanticTokensProvider } from '../providers/JwtDocumentSemanticTokensProvider'
+import { JwtDocumentSemanticTokensProvider } from './JwtDocumentSemanticTokensProvider'
 
 export function RegisterDocumentSemanticTokensProvider(
   context: ExtensionContext
