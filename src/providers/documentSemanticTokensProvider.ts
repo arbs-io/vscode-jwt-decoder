@@ -16,7 +16,7 @@ import { LocalStorageService } from '../services/storageService'
 const tokenTypes = new Map<string, number>()
 const tokenTypesLegend = ['jwt_joseHeader', 'jwt_claimsSet', 'jwt_signature']
 
-export function registerJwtDocumentSemanticTokensProvider(
+export function registerDocumentSemanticTokensProvider(
   context: ExtensionContext
 ) {
   const provider = new JwtDocumentSemanticTokensProvider(context)
