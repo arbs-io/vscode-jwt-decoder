@@ -2,7 +2,7 @@ import { languages, ExtensionContext, Hover } from 'vscode'
 import { LocalStorageService } from '../services/storageService'
 import { stringHash } from '../utils/stringHash'
 
-export function RegisterHoverProvider(context: ExtensionContext) {
+export function registerHoverProvider(context: ExtensionContext) {
   context.subscriptions.push(
     languages.registerHoverProvider('jwt', {
       provideHover(document, position, token) {

@@ -6,6 +6,7 @@ import {
   SemanticTokens,
   SemanticTokensBuilder,
   ExtensionContext,
+  languages,
 } from 'vscode'
 
 import { JwtDecoder } from '../utils/jwtDecoder'
@@ -14,6 +15,19 @@ import { LocalStorageService } from '../services/storageService'
 
 const tokenTypes = new Map<string, number>()
 const tokenTypesLegend = ['jwt_joseHeader', 'jwt_claimsSet', 'jwt_signature']
+
+export function registerJwtDocumentSemanticTokensProvider(
+  context: ExtensionContext
+) {
+  const provider = new JwtDocumentSemanticTokensProvider(context)
+  context.subscriptions.push(
+    languages.registerDocumentSemanticTokensProvider(
+      { language: 'jwt' },
+      provider,
+      provider.legend
+    )
+  )
+}
 
 export class JwtDocumentSemanticTokensProvider
   implements DocumentSemanticTokensProvider
