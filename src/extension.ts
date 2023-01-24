@@ -1,10 +1,15 @@
 import { ExtensionContext } from 'vscode'
-import { RegisterCommand } from './contexts/RegisterCommand'
-import { RegisterDocumentSemanticTokensProvider } from './contexts/RegisterDocumentSemanticTokensProvider'
-import { RegisterHoverProvider } from './contexts/RegisterHoverProvider'
+import { registerShowPreviewClaimsetCommand } from './contexts/registerShowPreviewClaimsetCommand'
+import { registerShowPreviewDecodedCommand } from './contexts/registerShowPreviewDecodedCommand'
+import { registerDocumentSemanticTokensProvider } from './providers/documentSemanticTokensProvider'
+import { registerHoverProvider } from './providers/hoverProvider'
 
 export function activate(context: ExtensionContext) {
-  RegisterDocumentSemanticTokensProvider(context)
-  RegisterCommand(context)
-  RegisterHoverProvider(context)
+  //Register Providers
+  registerDocumentSemanticTokensProvider(context)
+  registerHoverProvider(context)
+
+  //Register Commands
+  registerShowPreviewClaimsetCommand(context)
+  registerShowPreviewDecodedCommand(context)
 }

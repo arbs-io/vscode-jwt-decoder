@@ -1,4 +1,4 @@
-export class JwtDecode {
+export class JwtDecoder {
   public joseHeader: object
   public claimset: object
 
