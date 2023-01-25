@@ -1,6 +1,6 @@
 import { ExtensionContext } from 'vscode'
-import { registerShowPreviewClaimsetCommand } from './contexts/registerShowPreviewClaimsetCommand'
-import { registerShowPreviewDecodedCommand } from './contexts/registerShowPreviewDecodedCommand'
+import { registerShowClaimsetPreviewCommand } from './contexts/registerShowClaimsetPreviewCommand'
+import { registerShowJsonPreviewCommand } from './contexts/registerShowJsonPreviewCommand'
 import { registerDocumentSemanticTokensProvider } from './providers/documentSemanticTokensProvider'
 import { registerHoverProvider } from './providers/hoverProvider'
 
@@ -10,6 +10,6 @@ export function activate(context: ExtensionContext) {
   registerHoverProvider(context)
 
   //Register Commands
-  registerShowPreviewClaimsetCommand(context)
-  registerShowPreviewDecodedCommand(context)
+  registerShowClaimsetPreviewCommand(context)
+  registerShowJsonPreviewCommand(context)
 }
