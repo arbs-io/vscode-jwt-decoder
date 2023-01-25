@@ -1,11 +1,18 @@
-import { Disposable, Webview, WebviewPanel, window, Uri, ViewColumn } from "vscode";
-import { getUri } from "../utils/getUri";
-import { getNonce } from "../utils/getNonce";
+import {
+  Disposable,
+  Webview,
+  WebviewPanel,
+  window,
+  Uri,
+  ViewColumn,
+} from 'vscode'
+import { getUri } from '../utils/getUri'
+import { getNonce } from '../utils/getNonce'
 
 export class ClaimsetPanel {
-  public static currentPanel: ClaimsetPanel | undefined;
-  private readonly _panel: WebviewPanel;
-  private _disposables: Disposable[] = [];
+  public static currentPanel: ClaimsetPanel | undefined
+  private readonly _panel: WebviewPanel
+  private _disposables: Disposable[] = []
 
   /**
    * The ClaimsetPanel class private constructor (called only from the render method).
@@ -14,17 +21,20 @@ export class ClaimsetPanel {
    * @param extensionUri The URI of the directory containing the extension
    */
   private constructor(panel: WebviewPanel, extensionUri: Uri) {
-    this._panel = panel;
+    this._panel = panel
 
     // Set an event listener to listen for when the panel is disposed (i.e. when the user closes
     // the panel or when the panel is closed programmatically)
-    this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
+    this._panel.onDidDispose(() => this.dispose(), null, this._disposables)
 
     // Set the HTML content for the webview panel
-    this._panel.webview.html = this._getWebviewContent(this._panel.webview, extensionUri);
+    this._panel.webview.html = this._getWebviewContent(
+      this._panel.webview,
+      extensionUri
+    )
 
     // Set an event listener to listen for messages passed from the webview context
-    this._setWebviewMessageListener(this._panel.webview);
+    this._setWebviewMessageListener(this._panel.webview)
   }
 
   /**
@@ -36,20 +46,20 @@ export class ClaimsetPanel {
   public static render(extensionUri: Uri) {
     if (ClaimsetPanel.currentPanel) {
       // If the webview panel already exists reveal it
-      ClaimsetPanel.currentPanel._panel.reveal(ViewColumn.One);
+      ClaimsetPanel.currentPanel._panel.reveal(ViewColumn.One)
     } else {
       // If a webview panel does not already exist create and show a new one
       const panel = window.createWebviewPanel(
-        "showPreviewClaimset",
-        "JWT Claimset",
+        'showPreviewClaimset',
+        'JWT Claimset',
         ViewColumn.One,
         {
           enableScripts: true,
-          localResourceRoots: [Uri.joinPath(extensionUri, "out")],
+          localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
         }
-      );
+      )
 
-      ClaimsetPanel.currentPanel = new ClaimsetPanel(panel, extensionUri);
+      ClaimsetPanel.currentPanel = new ClaimsetPanel(panel, extensionUri)
     }
   }
 
@@ -57,16 +67,16 @@ export class ClaimsetPanel {
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
-    ClaimsetPanel.currentPanel = undefined;
+    ClaimsetPanel.currentPanel = undefined
 
     // Dispose of the current webview panel
-    this._panel.dispose();
+    this._panel.dispose()
 
     // Dispose of all disposables (i.e. commands) for the current webview panel
     while (this._disposables.length) {
-      const disposable = this._disposables.pop();
+      const disposable = this._disposables.pop()
       if (disposable) {
-        disposable.dispose();
+        disposable.dispose()
       }
     }
   }
@@ -83,10 +93,18 @@ export class ClaimsetPanel {
    * rendered within the webview panel
    */
   private _getWebviewContent(webview: Webview, extensionUri: Uri) {
-    const stylesUri = getUri(webview, extensionUri, ["out", "webview-ui", "index.css"]);
-    const scriptUri = getUri(webview, extensionUri, ["out", "webview-ui", "index.js"]);
+    const stylesUri = getUri(webview, extensionUri, [
+      'out',
+      'webview-ui',
+      'index.css',
+    ])
+    const scriptUri = getUri(webview, extensionUri, [
+      'out',
+      'webview-ui',
+      'index.js',
+    ])
 
-    const nonce = getNonce();
+    const nonce = getNonce()
 
     return /*html*/ `
       <!DOCTYPE html>
@@ -94,7 +112,7 @@ export class ClaimsetPanel {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
+          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src * 'self' data: https:; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
           <link rel="stylesheet" type="text/css" href="${stylesUri}">
           <title>Hello World</title>
         </head>
@@ -103,7 +121,7 @@ export class ClaimsetPanel {
           <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
       </html>
-    `;
+    `
   }
 
   /**
@@ -116,17 +134,17 @@ export class ClaimsetPanel {
   private _setWebviewMessageListener(webview: Webview) {
     webview.onDidReceiveMessage(
       (message: any) => {
-        const command = message.command;
-        const text = message.text;
+        const command = message.command
+        const text = message.text
 
         switch (command) {
-          case "hello":
-            window.showInformationMessage(text);
-            return;
+          case 'hello':
+            window.showInformationMessage(text)
+            return
         }
       },
       undefined,
       this._disposables
-    );
+    )
   }
 }
