@@ -41,12 +41,12 @@
     "menus": {
       "editor/title": [
         {
-          "command": "jwt.showPreviewDecoded",
+          "command": "jwt.showJsonPreviewCommand",
           "when": "editorLangId == jwt",
           "group": "navigation"
         },
         {
-          "command": "jwt.showPreviewClaimset",
+          "command": "jwt.showClaimsetPreviewCommand",
           "when": "editorLangId == jwt",
           "group": "navigation"
         }
@@ -54,13 +54,13 @@
     },
     "commands": [
       {
-        "command": "jwt.showPreviewDecoded",
+        "command": "jwt.showJsonPreviewCommand",
         "title": "Show a decoded version of the token in json format",
         "category": "jwt",
         "icon": "$(bracket)"
       },
       {
-        "command": "jwt.showPreviewClaimset",
+        "command": "jwt.showClaimsetPreviewCommand",
         "title": "Show a rendered version of the claimset",
         "category": "jwt",
         "icon": "$(workspace-trusted)"
@@ -94,7 +94,11 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "install:all": "npm install && cd webview-ui && npm install",
+    "start:webview": "cd webview-ui && npm run start",
+    "build:webview": "cd webview-ui && npm run build",
+    "test:webview": "cd webview-ui && npm run test",
+    "vscode:prepublish": "npm run build:webview && npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
