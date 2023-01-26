@@ -12,36 +12,64 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=arbs-io_vscode-jwt-decoder&metric=bugs)](https://sonarcloud.io/summary/new_code?id=arbs-io_vscode-jwt-decoder)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=arbs-io_vscode-jwt-decoder&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=arbs-io_vscode-jwt-decoder)
 
-This vscode extension detects jwt and provides a quick access decoder. The vscode-jwt-decoder extension has been created to avoid copying live tokens to random websites. This extension works locally, and **DATA NEVER LEAVES YOUR MACHINE**
+## Overview
+
+vscode-jwt-decoder extension is a helpful tool for developers who regularly work with JSON Web Tokens (JWT). It seamlessly integrates with Visual Studio Code, allowing for quick and easy decoding of JWTs directly within the editor.
+
+One of the main advantages of this extension is that it eliminates the need to copy live tokens to external websites for decoding. Instead, the extension works locally, providing a convenient and secure way to decode JWTs without the risk of exposing sensitive data to third-party sources.
+
+It is important to note that the extension operates entirely on the user's local machine, and no data is ever transmitted or stored outside the user's device. This feature is critical for maintaining the privacy and security of token data, and it is a fundamental design principle of the vscode-jwt-decoder extension.
+
+In summary, the vscode-jwt-decoder is a powerful, easy-to-use extension that allows developers to decode JWTs quickly and securely without transmitting data to external sources. It is an essential tool for anyone who works with JWTs regularly and is looking for a more efficient and secure way to decode these tokens.
 
 ## What is a JWT?
 
-JSON Web Tokens (JWT) are an open, industry-standard RFC 7519 method for representing claims securely between two parties. A JWT is a structured security token format used to encode JSON data. The main reason to use JWT is to exchange JSON data in a way that can be cryptographically verified.
+JSON Web Tokens (JWT) are a widely-adopted, industry-standard method for securely conveying claims between parties, as defined in the RFC 7519 specification. These tokens utilize a structured format to encode JSON data and are commonly used to verify the authenticity of the conveyed information cryptographically.
 
-There are two types of JWTs:
-
-- JSON Web Signature (JWS)
-- JSON Web Encryption (JWE)
-
-The data in a JWS is public—meaning anyone with the token can read the data. Whereas a JWE is encrypted and private. Therefore, to read data contained within a JWE, you need both the token and a secret key. When you use a JWT, it's usually a JWS. The 'S' (the signature) is essential and allows the token to be validated. This extension is designed to work with JWS out of the box, but support for JWE will be added if there is interest.
-
-## Getting started
-
-Copy a token into a document and set the language to jwt. Eventually, vscode will detect the content as a jwt and switch to jwt language extension automatically.
+JWTs can be divided into JSON Web Signatures (JWS) and JSON Web Encryptions (JWE). JWS tokens contain public data, which anyone possessing the token can read. On the other hand, JWE tokens are encrypted and thus private, requiring both the token and a secret key to be deciphered. JWS tokens are the most commonly used type of JWT and include a signature, allowing for token validation. This extension is optimized to work with JWS tokens. However, support for JWE tokens may be added based on user demand.
 
 ![vscode-jwt-decoder.gif](images/vscode-jwt-decoder.gif)
 
-The tokens are highlighted in an easy-to-identify scheme
+## JWT DocumentSemanticTokensProvider
 
-![token-raw.png](images/token-raw.png)
+The vscode-jwt-decoder extension uses the Visual Studio Code DocumentSemanticTokensProvider API to improve the readability of JSON Web Tokens (JWT) within the editor. The DocumentSemanticTokensProvider API allows extensions to provide semantic tokens, or meta-information, about the contents of a document. VS Code can use this meta-information to improve the document's readability by applying syntax highlighting or other visual cues.
 
-Once decoded the JSON is created on a separate panel
+In the case of the vscode-jwt-decoder extension, the extension uses the DocumentSemanticTokensProvider API to provide semantic tokens for the various parts of a JWT, such as the header, payload, and signature. These semantic tokens can then apply syntax highlighting or other visual cues to make it easier to distinguish between the different parts of the JWT.
 
-![token-decoded.png](images/token-decoded.png)
+For example, the header and payload sections of the JWT can be highlighted in a different colour than the signature, making it easier to identify these parts of the token. Additionally, the extension can use semantic tokens to apply various colour schemes to other parts of the payload, depending on the type of data it represents.
+
+![vscode-jwt-decoder-hls.png](images/vscode-jwt-decoder-hls.png)
+
+## JWT Preview
+
+The vscode-jwt-decoder extension uses the Visual Studio Code HoverProvider API to provide a preview of the JSON Web Token (JWT) JSON directly in the text editor. The HoverProvider API allows extensions to provide hover text displayed when the user hovers over a specific word or phrase within the editor.
+
+In the case of the vscode-jwt-decoder extension, the extension uses the HoverProvider API to provide hover text for JWT tokens. When the user hovers over a JWT token, the extension will parse it and display a preview of the JWT header and claimset in JSON format. This allows the user to quickly view the token's contents without having to decode it manually or switch to a different tool. The hover text provided by the extension includes the header and payload and also consists of a button to decode the token.
+
+![vscode-jwt-decoder-hover.png](images/vscode-jwt-decoder-hover.png)
+
+## JWT Claimset Viewer
+
+The vscode-jwt-decoder extension provides claims information by extracting the claims from the JSON Web Token (JWT) payload and displaying them in a user-friendly format.
+
+When the user requests to decode a JWT, the payload is parsed as a JSON object, allowing the extension to access the individual properties and values of the data. The extension then iterates through the payload's properties and values, providing the value and a helpful description for each claim within the token. This information is displayed in a user-friendly format, such as a table or list, making it easy for the user to understand the data contained within the JWT.
+
+The extension also recognizes standard JWT claims and formally describes the claim type. This helps users understand the meaning of claims they may need to become more familiar with.
+![vscode-jwt-decoder-showClaimsetPreviewCommand.png](images/vscode-jwt-decoder-showClaimsetPreviewCommand.png)
+
+## JWT Json Decoder
+
+The vscode-jwt-decoder extension uses the jsonwebtoken library to decode JWTs into a raw JSON file. When the user requests to decode a JWT, the extension verifies the signature, extracts the payload, and then creates a new file in the user's workspace containing the payload data in raw JSON format, allowing the user to easily view and understand the data that is contained within the JWT.
+![vscode-jwt-decoder-showJsonPreviewCommand.png](images/vscode-jwt-decoder-showJsonPreviewCommand.png)
 
 ## Build Info
 
-- vsce package --out "releases"
+```bash
+npm run install:all
+npm run build:webview
+```
+
+In vscode start debugging
 
 ## **How can I help?**
 
@@ -56,6 +84,6 @@ Another way to help out is to [sponsor me on GitHub](https://github.com/sponsors
 
 ## **Copyright**
 
-Copyright 2021 - 2022 Api Studio, Inc.
+Copyright: Andrew Butson.
 
 Licensed under the MIT License
