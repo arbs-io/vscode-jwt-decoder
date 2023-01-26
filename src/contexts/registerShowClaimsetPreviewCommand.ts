@@ -1,5 +1,5 @@
 import { commands, ExtensionContext, Uri } from 'vscode'
-import { ClaimsetPanel } from '../panels/ClaimsetPanel'
+import { JwtClaimsetViewerPanel } from '../panels/jwtClaimsetViewerPanel'
 import { LocalStorageService } from '../services/storageService'
 import { stringHash } from '../utils/stringHash'
 
@@ -15,7 +15,7 @@ function _registerCommand(context: ExtensionContext) {
     const storageManager = new LocalStorageService(context.workspaceState)
     const claimSet = storageManager.getValue<object>(`claimsSet_${docHash}`)
 
-    ClaimsetPanel.render(context.extensionUri, claimSet)
+    JwtClaimsetViewerPanel.render(context.extensionUri, claimSet)
   }
   context.subscriptions.push(commands.registerCommand(command, commandHandler))
 }
