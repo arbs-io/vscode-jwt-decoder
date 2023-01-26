@@ -13,6 +13,7 @@ export class ClaimsetPanel {
   public static currentPanel: ClaimsetPanel | undefined
   private readonly _panel: WebviewPanel
   private _disposables: Disposable[] = []
+  private static _claimset: object
 
   /**
    * The ClaimsetPanel class private constructor (called only from the render method).
@@ -43,7 +44,13 @@ export class ClaimsetPanel {
    *
    * @param extensionUri The URI of the directory containing the extension.
    */
-  public static render(extensionUri: Uri) {
+  public static render(extensionUri: Uri, claimset: object) {
+    //Check that we have a valid object
+    if (claimset === undefined) {
+      return
+    }
+    //ClaimsetPanel._claimset = claimset;
+
     if (ClaimsetPanel.currentPanel) {
       // If the webview panel already exists reveal it
       ClaimsetPanel.currentPanel._panel.reveal(ViewColumn.One)
@@ -58,9 +65,10 @@ export class ClaimsetPanel {
           localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
         }
       )
-
       ClaimsetPanel.currentPanel = new ClaimsetPanel(panel, extensionUri)
     }
+
+    ClaimsetPanel.currentPanel?._panel.webview.postMessage(claimset)
   }
 
   /**
@@ -112,9 +120,9 @@ export class ClaimsetPanel {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src * 'self' data: https:; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
+          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src * 'self' data: https:; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}';">
           <link rel="stylesheet" type="text/css" href="${stylesUri}">
-          <title>Hello World</title>
+          <title>Claimset</title>
         </head>
         <body>
           <div id="root"></div>
