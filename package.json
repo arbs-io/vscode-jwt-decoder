@@ -33,20 +33,20 @@
           ".jwt"
         ],
         "icon": {
-          "light": "./images/jwt-light.png",
-          "dark": "./images/jwt-dark.png"
+          "light": "./assets/jwt-light.png",
+          "dark": "./assets/jwt-dark.png"
         }
       }
     ],
     "menus": {
       "editor/title": [
         {
-          "command": "jwt.showPreviewDecoded",
+          "command": "jwt.showJsonPreviewCommand",
           "when": "editorLangId == jwt",
           "group": "navigation"
         },
         {
-          "command": "jwt.showPreviewClaimset",
+          "command": "jwt.showClaimsetPreviewCommand",
           "when": "editorLangId == jwt",
           "group": "navigation"
         }
@@ -54,16 +54,22 @@
     },
     "commands": [
       {
-        "command": "jwt.showPreviewDecoded",
-        "title": "Show a decoded version of the token in json format",
+        "command": "jwt.showJsonPreviewCommand",
+        "title": "JWT: Show token in decoded json view",
         "category": "jwt",
-        "icon": "$(bracket)"
+        "icon": {
+          "light": "assets/showJsonPreviewCommand-light.png",
+          "dark": "assets/showJsonPreviewCommand-dark.png"
+        }
       },
       {
-        "command": "jwt.showPreviewClaimset",
-        "title": "Show a rendered version of the claimset",
+        "command": "jwt.showClaimsetPreviewCommand",
+        "title": "JWT: Show rendered claimset",
         "category": "jwt",
-        "icon": "$(workspace-trusted)"
+        "icon": {
+          "light": "assets/showClaimsetPreviewCommand-light.png",
+          "dark": "assets/showClaimsetPreviewCommand-dark.png"
+        }
       }
     ],
     "semanticTokenTypes": [
@@ -94,7 +100,11 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "install:all": "npm install && cd webview-ui && npm install",
+    "start:webview": "cd webview-ui && npm run start",
+    "build:webview": "cd webview-ui && npm run build",
+    "test:webview": "cd webview-ui && npm run test",
+    "vscode:prepublish": "npm run build:webview && npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
