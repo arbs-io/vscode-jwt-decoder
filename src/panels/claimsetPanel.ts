@@ -8,12 +8,13 @@ import {
 } from 'vscode'
 import { getUri } from '../utils/getUri'
 import { getNonce } from '../utils/getNonce'
+import { getActiveTextEditorFilename } from '../utils/getFilename'
 
 export class ClaimsetPanel {
   public static currentPanel: ClaimsetPanel | undefined
   private readonly _panel: WebviewPanel
   private _disposables: Disposable[] = []
-  private static _claimset: object
+  private readonly _extensionUri: Uri
 
   /**
    * The ClaimsetPanel class private constructor (called only from the render method).
@@ -23,6 +24,9 @@ export class ClaimsetPanel {
    */
   private constructor(panel: WebviewPanel, extensionUri: Uri) {
     this._panel = panel
+    this._extensionUri = extensionUri
+
+    this._setPanelIcon()
 
     // Set an event listener to listen for when the panel is disposed (i.e. when the user closes
     // the panel or when the panel is closed programmatically)
@@ -49,25 +53,25 @@ export class ClaimsetPanel {
     if (claimset === undefined) {
       return
     }
-    //ClaimsetPanel._claimset = claimset;
+    const activeFilename = `${getActiveTextEditorFilename(
+      'jwt-token'
+    )}-claimset`
 
     if (ClaimsetPanel.currentPanel) {
-      // If the webview panel already exists reveal it
-      ClaimsetPanel.currentPanel._panel.reveal(ViewColumn.One)
-    } else {
-      // If a webview panel does not already exist create and show a new one
-      const panel = window.createWebviewPanel(
-        'showPreviewClaimset',
-        'JWT Claimset',
-        ViewColumn.One,
-        {
-          enableScripts: true,
-          localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
-        }
-      )
-      ClaimsetPanel.currentPanel = new ClaimsetPanel(panel, extensionUri)
+      ClaimsetPanel.currentPanel._panel.dispose()
     }
-
+    // If a webview panel does not already exist create and show a new one
+    const panel = window.createWebviewPanel(
+      'showPreviewClaimset',
+      activeFilename,
+      ViewColumn.One,
+      {
+        enableScripts: true,
+        retainContextWhenHidden: true,
+        localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
+      }
+    )
+    ClaimsetPanel.currentPanel = new ClaimsetPanel(panel, extensionUri)
     ClaimsetPanel.currentPanel?._panel.webview.postMessage(claimset)
   }
 
@@ -87,6 +91,15 @@ export class ClaimsetPanel {
         disposable.dispose()
       }
     }
+  }
+
+  private _setPanelIcon() {
+    const iconPathOnDisk = Uri.joinPath(
+      this._extensionUri,
+      'assets',
+      'showClaimsetPreviewCommand.png'
+    )
+    this._panel.iconPath = iconPathOnDisk
   }
 
   /**
