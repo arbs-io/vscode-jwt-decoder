@@ -10,14 +10,14 @@ import { getUri } from '../utils/getUri'
 import { getNonce } from '../utils/getNonce'
 import { getActiveTextEditorFilename } from '../utils/getFilename'
 
-export class ClaimsetPanel {
-  public static currentPanel: ClaimsetPanel | undefined
+export class JwtClaimsetViewerPanel {
+  public static currentPanel: JwtClaimsetViewerPanel | undefined
   private readonly _panel: WebviewPanel
   private _disposables: Disposable[] = []
   private readonly _extensionUri: Uri
 
   /**
-   * The ClaimsetPanel class private constructor (called only from the render method).
+   * The JwtClaimsetViewerPanel class private constructor (called only from the render method).
    *
    * @param panel A reference to the webview panel
    * @param extensionUri The URI of the directory containing the extension
@@ -57,8 +57,8 @@ export class ClaimsetPanel {
       'jwt-token'
     )}-claimset`
 
-    if (ClaimsetPanel.currentPanel) {
-      ClaimsetPanel.currentPanel._panel.dispose()
+    if (JwtClaimsetViewerPanel.currentPanel) {
+      JwtClaimsetViewerPanel.currentPanel._panel.dispose()
     }
     // If a webview panel does not already exist create and show a new one
     const panel = window.createWebviewPanel(
@@ -71,15 +71,18 @@ export class ClaimsetPanel {
         localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
       }
     )
-    ClaimsetPanel.currentPanel = new ClaimsetPanel(panel, extensionUri)
-    ClaimsetPanel.currentPanel?._panel.webview.postMessage(claimset)
+    JwtClaimsetViewerPanel.currentPanel = new JwtClaimsetViewerPanel(
+      panel,
+      extensionUri
+    )
+    JwtClaimsetViewerPanel.currentPanel?._panel.webview.postMessage(claimset)
   }
 
   /**
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
-    ClaimsetPanel.currentPanel = undefined
+    JwtClaimsetViewerPanel.currentPanel = undefined
 
     // Dispose of the current webview panel
     this._panel.dispose()
