@@ -1,4 +1,11 @@
-import { commands, ExtensionContext, Uri, window, workspace } from 'vscode'
+import {
+  commands,
+  ExtensionContext,
+  Uri,
+  ViewColumn,
+  window,
+  workspace,
+} from 'vscode'
 import { LocalStorageService } from '../services/storageService'
 import { stringHash } from '../utils/stringHash'
 
@@ -19,7 +26,13 @@ function _registerCommand(context: ExtensionContext) {
         content: JSON.stringify(claimSet, undefined, 4),
         language: 'json',
       })
-      .then((doc) => window.showTextDocument(doc))
+      .then((doc) =>
+        window.showTextDocument(doc, {
+          preserveFocus: true,
+          preview: false,
+          viewColumn: ViewColumn.Beside,
+        })
+      )
   }
   context.subscriptions.push(commands.registerCommand(command, commandHandler))
 }
