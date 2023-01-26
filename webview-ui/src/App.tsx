@@ -48,8 +48,11 @@ function App() {
         </VSCodeDataGridRow>
         {abc.map((claim) => {
           return (
-            <VSCodeDataGridRow>
-              <VSCodeDataGridCell gridColumn="1">
+            <VSCodeDataGridRow key={`row_${claim.claimName}`}>
+              <VSCodeDataGridCell
+                key={`claimName_${claim.claimName}`}
+                gridColumn="1"
+              >
                 <img
                   src={claim.claimIcon}
                   alt={'logo'}
@@ -57,10 +60,16 @@ function App() {
                 />
                 <VSCodeBadge>{claim.claimName}</VSCodeBadge>
               </VSCodeDataGridCell>
-              <VSCodeDataGridCell gridColumn="2">
+              <VSCodeDataGridCell
+                key={`claimValue_${claim.claimName}`}
+                gridColumn="2"
+              >
                 {claim.claimValue}
               </VSCodeDataGridCell>
-              <VSCodeDataGridCell gridColumn="3">
+              <VSCodeDataGridCell
+                key={`claimDescription_${claim.claimName}`}
+                gridColumn="3"
+              >
                 {claim.claimDescription}
               </VSCodeDataGridCell>
             </VSCodeDataGridRow>
