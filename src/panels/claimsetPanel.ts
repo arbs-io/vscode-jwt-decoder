@@ -154,17 +154,20 @@ export class ClaimsetPanel {
    */
   private _setWebviewMessageListener(webview: Webview) {
     webview.onDidReceiveMessage(
-      (message: any) => {
-        const command = message.command
-        const text = message.text
-
-        switch (command) {
-          case 'hello':
-            window.showInformationMessage(text)
+      (message) => {
+        switch (message.command) {
+          case 'alert':
+            window.showErrorMessage(message.text)
+            return
+          case 'info':
+            window.showInformationMessage(message.text)
+            return
+          default:
+            console.log(message.text)
             return
         }
       },
-      undefined,
+      null,
       this._disposables
     )
   }
