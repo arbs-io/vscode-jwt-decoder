@@ -30,11 +30,11 @@ JWTs can be divided into JSON Web Signatures (JWS) and JSON Web Encryptions (JWE
 
 ![vscode-jwt-decoder.gif](images/vscode-jwt-decoder.gif)
 
-## JWT DocumentSemanticTokensProvider
+## JWT Semantic Tokens
 
-The vscode-jwt-decoder extension uses the Visual Studio Code DocumentSemanticTokensProvider API to improve the readability of JSON Web Tokens (JWT) within the editor. The DocumentSemanticTokensProvider API allows extensions to provide semantic tokens, or meta-information, about the contents of a document. VS Code can use this meta-information to improve the document's readability by applying syntax highlighting or other visual cues.
+The vscode-jwt-decoder extension uses the Visual Studio Code Semantic Tokens API to improve the readability of JSON Web Tokens (JWT) within the editor. The Semantic Tokens API allows extensions to provide semantic tokens, or meta-information, about the contents of a document. VS Code can use this meta-information to improve the document's readability by applying syntax highlighting or other visual cues.
 
-In the case of the vscode-jwt-decoder extension, the extension uses the DocumentSemanticTokensProvider API to provide semantic tokens for the various parts of a JWT, such as the header, payload, and signature. These semantic tokens can then apply syntax highlighting or other visual cues to make it easier to distinguish between the different parts of the JWT.
+In the case of the vscode-jwt-decoder extension, the extension uses the Semantic Tokens API to provide semantic tokens for the various parts of a JWT, such as the header, payload, and signature. These semantic tokens can then apply syntax highlighting or other visual cues to make it easier to distinguish between the different parts of the JWT.
 
 For example, the header and payload sections of the JWT can be highlighted in a different colour than the signature, making it easier to identify these parts of the token. Additionally, the extension can use semantic tokens to apply various colour schemes to other parts of the payload, depending on the type of data it represents.
 
@@ -42,9 +42,9 @@ For example, the header and payload sections of the JWT can be highlighted in a 
 
 ## JWT Preview
 
-The vscode-jwt-decoder extension uses the Visual Studio Code HoverProvider API to provide a preview of the JSON Web Token (JWT) JSON directly in the text editor. The HoverProvider API allows extensions to provide hover text displayed when the user hovers over a specific word or phrase within the editor.
+The vscode-jwt-decoder extension uses the Visual Studio Code hover API to provide a preview of the JSON Web Token (JWT) JSON directly in the text editor. The hover API allows extensions to provide hover text displayed when the user hovers over a specific word or phrase within the editor.
 
-In the case of the vscode-jwt-decoder extension, the extension uses the HoverProvider API to provide hover text for JWT tokens. When the user hovers over a JWT token, the extension will parse it and display a preview of the JWT header and claimset in JSON format. This allows the user to quickly view the token's contents without having to decode it manually or switch to a different tool. The hover text provided by the extension includes the header and payload and also consists of a button to decode the token.
+In the case of the vscode-jwt-decoder extension, the extension uses the hover API to provide hover text for JWT tokens. When the user hovers over a JWT token, the extension will parse it and display a preview of the JWT header and claimset in JSON format. This allows the user to quickly view the token's contents without having to decode it manually or switch to a different tool. The hover text provided by the extension includes the header and payload and also consists of a button to decode the token.
 
 ![vscode-jwt-decoder-hover.png](images/vscode-jwt-decoder-hover.png)
 
@@ -64,12 +64,12 @@ The vscode-jwt-decoder extension uses the jsonwebtoken library to decode JWTs in
 
 ## Build Info
 
+Scripts included in the package to install and build the extension and all components. Github action include build for macOS, ubuntu and windows. Note yarn is required for the ubuntu build.
+
 ```bash
 npm run install:all
 npm run build:webview
 ```
-
-In vscode start debugging
 
 ## **How can I help?**
 
