@@ -2,7 +2,7 @@
   "name": "vscode-jwt-decoder",
   "displayName": "vscode-jwt-decoder",
   "description": "A vscode extension to locally debugging jwt token",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -57,19 +57,13 @@
         "command": "jwt.showJsonPreviewCommand",
         "title": "JWT: Show token in decoded json view",
         "category": "jwt",
-        "icon": {
-          "light": "assets/showJsonPreviewCommand-light.png",
-          "dark": "assets/showJsonPreviewCommand-dark.png"
-        }
+        "icon": "$(json)"
       },
       {
         "command": "jwt.showClaimsetPreviewCommand",
         "title": "JWT: Show rendered claimset",
         "category": "jwt",
-        "icon": {
-          "light": "assets/showClaimsetPreviewCommand-light.png",
-          "dark": "assets/showClaimsetPreviewCommand-dark.png"
-        }
+        "icon": "$(preview)"
       }
     ],
     "semanticTokenTypes": [
