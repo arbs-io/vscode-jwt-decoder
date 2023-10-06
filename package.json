@@ -20,6 +20,17 @@
   "categories": [
     "Other"
   ],
+  "scripts": {
+    "install:all": "npm install && npm --prefix ./webview-ui install",
+    "build:all": "npm --prefix ./webview-ui run build",
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --target=es2020",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run build:webview && npm run -S esbuild-base -- --sourcemap --watch",
+    "test-compile": "tsc -p ./",
+    "deploy": "vsce publish --yarn",
+    "clean": "node ./utilities/scripts/clean.js"
+  },
   "activationEvents": [
     "onLanguage:jwt"
   ],
@@ -92,19 +103,6 @@
         }
       }
     }
-  },
-  "scripts": {
-    "install:all": "npm install && cd webview-ui && npm install",
-    "start:webview": "cd webview-ui && npm run start",
-    "build:webview": "cd webview-ui && npm run build",
-    "test:webview": "cd webview-ui && npm run test",
-    "vscode:prepublish": "npm run build:webview && npm run esbuild-base -- --minify",
-    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
-    "esbuild": "npm run esbuild-base -- --sourcemap",
-    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
-    "test-compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "deploy": "vsce publish --yarn"
   },
   "devDependencies": {
     "@types/node": "^20.8.2",
