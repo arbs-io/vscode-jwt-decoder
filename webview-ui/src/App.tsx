@@ -7,8 +7,10 @@ import {
 } from '@vscode/webview-ui-toolkit/react'
 import { ITokenListItem, tokenListItems } from './utilities/tokenListItems'
 import './App.css'
+import { vscode } from './utilities/vscode'
 
 function App() {
+  const [didInitialize, setDidInitialize] = useState<boolean>(false)
   const [state, setState] = useState<MessageEvent>()
   const onMessageReceivedFromIframe = useCallback(
     (event: MessageEvent) => {
@@ -19,6 +21,15 @@ function App() {
 
   useEffect(() => {
     window.addEventListener('message', onMessageReceivedFromIframe)
+
+    if (!didInitialize) {
+      vscode.postMessage({
+        command: 'onDidInitialize',
+        text: undefined,
+      })
+      setDidInitialize(true)
+    }
+
     return () =>
       window.removeEventListener('message', onMessageReceivedFromIframe)
   }, [onMessageReceivedFromIframe])

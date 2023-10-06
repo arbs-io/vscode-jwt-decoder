@@ -68,7 +68,7 @@ Scripts included in the package to install and build the extension and all compo
 
 ```bash
 npm run install:all
-npm run build:webview
+npm run build:all
 ```
 
 ## **How can I help?**

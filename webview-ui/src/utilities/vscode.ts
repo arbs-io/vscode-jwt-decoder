@@ -31,8 +31,6 @@ class VSCodeAPIWrapper {
   public postMessage(message: unknown) {
     if (this.vsCodeApi) {
       this.vsCodeApi.postMessage(message)
-    } else {
-      console.log(message)
     }
   }
 
@@ -44,7 +42,7 @@ class VSCodeAPIWrapper {
    *
    * @return The current state or `undefined` if no state has been set.
    */
-  public getState(): unknown | undefined {
+  public getState(): unknown {
     if (this.vsCodeApi) {
       return this.vsCodeApi.getState()
     } else {
@@ -64,7 +62,7 @@ class VSCodeAPIWrapper {
    *
    * @return The new state.
    */
-  public setState<T extends unknown | undefined>(newState: T): T {
+  public setState<T>(newState: T): T {
     if (this.vsCodeApi) {
       return this.vsCodeApi.setState(newState)
     } else {

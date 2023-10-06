@@ -11,6 +11,7 @@ import { getNonce } from '../utils/getNonce'
 import { getActiveTextEditorFilename } from '../utils/getFilename'
 
 export class JwtClaimsetViewerPanel {
+  private static _claimset: object
   public static currentPanel: JwtClaimsetViewerPanel | undefined
   private readonly _panel: WebviewPanel
   private _disposables: Disposable[] = []
@@ -75,7 +76,7 @@ export class JwtClaimsetViewerPanel {
       panel,
       extensionUri
     )
-    JwtClaimsetViewerPanel.currentPanel?._panel.webview.postMessage(claimset)
+    this._claimset = claimset
   }
 
   /**
@@ -159,15 +160,20 @@ export class JwtClaimsetViewerPanel {
     webview.onDidReceiveMessage(
       (message) => {
         switch (message.command) {
-          case 'alert':
+          case 'onDidInitialize': {
+            JwtClaimsetViewerPanel.currentPanel?._panel.webview.postMessage(
+              JwtClaimsetViewerPanel._claimset
+            )
+            return
+          }
+          case 'alert': {
             window.showErrorMessage(message.text)
             return
-          case 'info':
+          }
+          default: {
             window.showInformationMessage(message.text)
             return
-          default:
-            console.log(message.text)
-            return
+          }
         }
       },
       null,
