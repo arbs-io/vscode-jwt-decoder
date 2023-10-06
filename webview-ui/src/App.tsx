@@ -12,7 +12,6 @@ function App() {
   const [state, setState] = useState<MessageEvent>()
   const onMessageReceivedFromIframe = useCallback(
     (event: MessageEvent) => {
-      console.log('onMessageReceivedFromIframe', event)
       setState(event)
     },
     [state]
@@ -24,15 +23,31 @@ function App() {
       window.removeEventListener('message', onMessageReceivedFromIframe)
   }, [onMessageReceivedFromIframe])
 
-  let abc: ITokenListItem[] = []
+  const tokenData: ITokenListItem[] = []
   if (state !== undefined) {
-    abc = tokenListItems(JSON.stringify(state.data))
+    const tempTokenData: ITokenListItem[] = tokenListItems(
+      JSON.stringify(state.data)
+    )
+    tempTokenData.forEach((element) => {
+      if (element.claimValue) {
+        if (Array.isArray(element.claimValue)) {
+          let stringArray = ''
+          element.claimValue.sort().forEach((claimItem) => {
+            stringArray = stringArray + `🏷️ ${claimItem}\n`
+          })
+          element.claimValue = stringArray
+        } else {
+          element.claimValue = `📦 ${element.claimValue}`
+        }
+      }
+      tokenData.push(element)
+    })
   }
 
   return (
     <main>
       <VSCodeDataGrid
-        gridTemplateColumns="150px 450px"
+        gridTemplateColumns="150px 650px"
         aria-label="SubscriptionStatus"
       >
         <VSCodeDataGridRow rowType="sticky-header">
@@ -46,7 +61,7 @@ function App() {
             Description
           </VSCodeDataGridCell>
         </VSCodeDataGridRow>
-        {abc.map((claim) => {
+        {tokenData.map((claim) => {
           return (
             <VSCodeDataGridRow key={`row_${claim.claimName}`}>
               <VSCodeDataGridCell
@@ -61,6 +76,7 @@ function App() {
                 <VSCodeBadge>{claim.claimName}</VSCodeBadge>
               </VSCodeDataGridCell>
               <VSCodeDataGridCell
+                style={{ whiteSpace: 'pre-line' }}
                 key={`claimValue_${claim.claimName}`}
                 gridColumn="2"
               >
