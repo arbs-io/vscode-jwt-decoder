@@ -36,6 +36,8 @@ function App() {
             stringArray = stringArray + `🏷️ ${claimItem}\n`
           })
           element.claimValue = stringArray
+        } else {
+          element.claimValue = `📦 ${element.claimValue}`
         }
       }
       tokenData.push(element)
@@ -45,7 +47,7 @@ function App() {
   return (
     <main>
       <VSCodeDataGrid
-        gridTemplateColumns="150px 450px"
+        gridTemplateColumns="150px 650px"
         aria-label="SubscriptionStatus"
       >
         <VSCodeDataGridRow rowType="sticky-header">
