@@ -7,8 +7,8 @@ export class JwtDecoder {
       throw new Error('Invalid token specified')
     }
     try {
-      this.joseHeader = JSON.parse(this.base64_url_decode(token.split('.')[0])) // JoseHeader
-      this.claimset = JSON.parse(this.base64_url_decode(token.split('.')[1])) // Claimset
+      this.joseHeader = JSON.parse(this.base64UlDecode(token.split('.')[0])) // JoseHeader
+      this.claimset = JSON.parse(this.base64UlDecode(token.split('.')[1])) // Claimset
     } catch (e) {
       throw new Error(`Invalid token specified: ${(e as Error).message}`)
     }
@@ -26,7 +26,7 @@ export class JwtDecoder {
     )
   }
 
-  private base64_url_decode(str: string) {
+  private base64UlDecode(str: string) {
     let output = str.replace(/-/g, '+').replace(/_/g, '/')
     switch (output.length % 4) {
       case 0:
