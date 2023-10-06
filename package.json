@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "install:all": "npm install && npm --prefix ./webview-ui install",
-    "build:webview": "npm --prefix ./webview-ui run build",
+    "build:all": "npm --prefix ./webview-ui run build",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --target=es2020",
     "esbuild": "npm run esbuild-base -- --sourcemap",
