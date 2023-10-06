@@ -164,16 +164,16 @@ export class JwtClaimsetViewerPanel {
             JwtClaimsetViewerPanel.currentPanel?._panel.webview.postMessage(
               JwtClaimsetViewerPanel._claimset
             )
+            return
           }
-          // case 'alert':
-          //   window.showErrorMessage(message.text)
-          //   return
-          // case 'info':
-          //   window.showInformationMessage(message.text)
-          //   return
-          // default:
-          //   console.log(message.text)
-          //   return
+          case 'alert': {
+            window.showErrorMessage(message.text)
+            return
+          }
+          default: {
+            window.showInformationMessage(message.text)
+            return
+          }
         }
       },
       null,
