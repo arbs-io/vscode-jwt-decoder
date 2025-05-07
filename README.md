@@ -67,8 +67,8 @@ The vscode-jwt-decoder extension uses the jsonwebtoken library to decode JWTs in
 Scripts included in the package to install and build the extension and all components. Github action include build for macOS, ubuntu and windows. Note yarn is required for the ubuntu build.
 
 ```bash
-npm run install:all
-npm run build:all
+npm install
+npm run build
 ```
 
 ## **How can I help?**
