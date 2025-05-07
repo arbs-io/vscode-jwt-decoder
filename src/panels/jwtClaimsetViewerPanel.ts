@@ -1,21 +1,21 @@
 import {
   Disposable,
+  Uri,
+  ViewColumn,
   Webview,
   WebviewPanel,
   window,
-  Uri,
-  ViewColumn,
-} from 'vscode'
-import { getUri } from '../utils/getUri'
-import { getNonce } from '../utils/getNonce'
-import { getActiveTextEditorFilename } from '../utils/getFilename'
+} from 'vscode';
+import { getActiveTextEditorFilename } from '../utils/getFilename';
+import { getNonce } from '../utils/getNonce';
+import { getUri } from '../utils/getUri';
 
 export class JwtClaimsetViewerPanel {
-  private static _claimset: object
-  public static currentPanel: JwtClaimsetViewerPanel | undefined
-  private readonly _panel: WebviewPanel
-  private _disposables: Disposable[] = []
-  private readonly _extensionUri: Uri
+  private static _claimset: object;
+  public static readonly currentPanel: JwtClaimsetViewerPanel | undefined;
+  private readonly _panel: WebviewPanel;
+  private readonly _disposables: Disposable[] = [];
+  private readonly _extensionUri: Uri;
 
   /**
    * The JwtClaimsetViewerPanel class private constructor (called only from the render method).
@@ -24,23 +24,23 @@ export class JwtClaimsetViewerPanel {
    * @param extensionUri The URI of the directory containing the extension
    */
   private constructor(panel: WebviewPanel, extensionUri: Uri) {
-    this._panel = panel
-    this._extensionUri = extensionUri
+    this._panel = panel;
+    this._extensionUri = extensionUri;
 
-    this._setPanelIcon()
+    this._setPanelIcon();
 
     // Set an event listener to listen for when the panel is disposed (i.e. when the user closes
     // the panel or when the panel is closed programmatically)
-    this._panel.onDidDispose(() => this.dispose(), null, this._disposables)
+    this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
 
     // Set the HTML content for the webview panel
     this._panel.webview.html = this._getWebviewContent(
       this._panel.webview,
       extensionUri
-    )
+    );
 
     // Set an event listener to listen for messages passed from the webview context
-    this._setWebviewMessageListener(this._panel.webview)
+    this._setWebviewMessageListener(this._panel.webview);
   }
 
   /**
@@ -52,14 +52,14 @@ export class JwtClaimsetViewerPanel {
   public static render(extensionUri: Uri, claimset: object) {
     //Check that we have a valid object
     if (claimset === undefined) {
-      return
+      return;
     }
     const activeFilename = `${getActiveTextEditorFilename(
       'jwt-token'
-    )}-claimset`
+    )}-claimset`;
 
     if (JwtClaimsetViewerPanel.currentPanel) {
-      JwtClaimsetViewerPanel.currentPanel._panel.dispose()
+      JwtClaimsetViewerPanel.currentPanel._panel.dispose();
     }
     // If a webview panel does not already exist create and show a new one
     const panel = window.createWebviewPanel(
@@ -71,28 +71,28 @@ export class JwtClaimsetViewerPanel {
         retainContextWhenHidden: true,
         localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
       }
-    )
+    );
     JwtClaimsetViewerPanel.currentPanel = new JwtClaimsetViewerPanel(
       panel,
       extensionUri
-    )
-    this._claimset = claimset
+    );
+    JwtClaimsetViewerPanel._claimset = claimset;
   }
 
   /**
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
-    JwtClaimsetViewerPanel.currentPanel = undefined
+    JwtClaimsetViewerPanel.currentPanel = undefined;
 
     // Dispose of the current webview panel
-    this._panel.dispose()
+    this._panel.dispose();
 
     // Dispose of all disposables (i.e. commands) for the current webview panel
     while (this._disposables.length) {
-      const disposable = this._disposables.pop()
+      const disposable = this._disposables.pop();
       if (disposable) {
-        disposable.dispose()
+        disposable.dispose();
       }
     }
   }
@@ -102,8 +102,8 @@ export class JwtClaimsetViewerPanel {
       this._extensionUri,
       'assets',
       'showClaimsetPreviewCommand.png'
-    )
-    this._panel.iconPath = iconPathOnDisk
+    );
+    this._panel.iconPath = iconPathOnDisk;
   }
 
   /**
@@ -120,16 +120,16 @@ export class JwtClaimsetViewerPanel {
   private _getWebviewContent(webview: Webview, extensionUri: Uri) {
     const stylesUri = getUri(webview, extensionUri, [
       'out',
-      'webview-ui',
+      'webview',
       'index.css',
-    ])
+    ]);
     const scriptUri = getUri(webview, extensionUri, [
       'out',
-      'webview-ui',
+      'webview',
       'index.js',
-    ])
+    ]);
 
-    const nonce = getNonce()
+    const nonce = getNonce();
 
     return /*html*/ `
       <!DOCTYPE html>
@@ -146,7 +146,7 @@ export class JwtClaimsetViewerPanel {
           <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
       </html>
-    `
+    `;
   }
 
   /**
@@ -163,21 +163,21 @@ export class JwtClaimsetViewerPanel {
           case 'onDidInitialize': {
             JwtClaimsetViewerPanel.currentPanel?._panel.webview.postMessage(
               JwtClaimsetViewerPanel._claimset
-            )
-            return
+            );
+            return;
           }
           case 'alert': {
-            window.showErrorMessage(message.text)
-            return
+            window.showErrorMessage(message.text);
+            return;
           }
           default: {
-            window.showInformationMessage(message.text)
-            return
+            window.showInformationMessage(message.text);
+            return;
           }
         }
       },
       null,
       this._disposables
-    )
+    );
   }
 }

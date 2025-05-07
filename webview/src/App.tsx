@@ -1,58 +1,56 @@
-import { useCallback, useEffect, useState } from 'react'
 import {
+  VSCodeBadge,
   VSCodeDataGrid,
   VSCodeDataGridCell,
   VSCodeDataGridRow,
-  VSCodeBadge,
-} from '@vscode/webview-ui-toolkit/react'
-import { ITokenListItem, tokenListItems } from './utilities/tokenListItems'
-import './App.css'
-import { vscode } from './utilities/vscode'
+} from "@vscode/webview-ui-toolkit/react";
+import { useCallback, useEffect, useState } from "react";
+import "./App.css";
+import { ITokenListItem, tokenListItems } from "./utilities/tokenListItems";
+import { vscode } from "./utilities/vscode";
 
 function App() {
-  const [didInitialize, setDidInitialize] = useState<boolean>(false)
-  const [state, setState] = useState<MessageEvent>()
-  const onMessageReceivedFromIframe = useCallback(
-    (event: MessageEvent) => {
-      setState(event)
-    },
-    [state]
-  )
+  const [didInitialize, setDidInitialize] = useState<boolean>(false);
+  const [state, setState] = useState<MessageEvent | undefined>();
+
+  const onMessageReceivedFromIframe = useCallback((event: MessageEvent) => {
+    setState(event);
+  }, []);
 
   useEffect(() => {
-    window.addEventListener('message', onMessageReceivedFromIframe)
+    window.addEventListener("message", onMessageReceivedFromIframe);
 
     if (!didInitialize) {
       vscode.postMessage({
-        command: 'onDidInitialize',
+        command: "onDidInitialize",
         text: undefined,
-      })
-      setDidInitialize(true)
+      });
+      setDidInitialize(true);
     }
 
     return () =>
-      window.removeEventListener('message', onMessageReceivedFromIframe)
-  }, [onMessageReceivedFromIframe])
+      window.removeEventListener("message", onMessageReceivedFromIframe);
+  }, [onMessageReceivedFromIframe, didInitialize]);
 
-  const tokenData: ITokenListItem[] = []
+  const tokenData: ITokenListItem[] = [];
   if (state !== undefined) {
     const tempTokenData: ITokenListItem[] = tokenListItems(
       JSON.stringify(state.data)
-    )
+    );
     tempTokenData.forEach((element) => {
       if (element.claimValue) {
         if (Array.isArray(element.claimValue)) {
-          let stringArray = ''
+          let stringArray = "";
           element.claimValue.sort().forEach((claimItem) => {
-            stringArray = stringArray + `🏷️ ${claimItem}\n`
-          })
-          element.claimValue = stringArray
+            stringArray = stringArray + `🏷️ ${claimItem}\n`;
+          });
+          element.claimValue = stringArray;
         } else {
-          element.claimValue = `📦 ${element.claimValue}`
+          element.claimValue = `📦 ${element.claimValue}`;
         }
       }
-      tokenData.push(element)
-    })
+      tokenData.push(element);
+    });
   }
 
   return (
@@ -81,13 +79,13 @@ function App() {
               >
                 <img
                   src={claim.claimIcon}
-                  alt={'logo'}
+                  alt={"logo"}
                   style={{ height: 16, width: 16, marginRight: 8 }}
                 />
                 <VSCodeBadge>{claim.claimName}</VSCodeBadge>
               </VSCodeDataGridCell>
               <VSCodeDataGridCell
-                style={{ whiteSpace: 'pre-line' }}
+                style={{ whiteSpace: "pre-line" }}
                 key={`claimValue_${claim.claimName}`}
                 gridColumn="2"
               >
@@ -100,11 +98,11 @@ function App() {
                 {claim.claimDescription}
               </VSCodeDataGridCell>
             </VSCodeDataGridRow>
-          )
+          );
         })}
       </VSCodeDataGrid>
     </main>
-  )
+  );
 }
 
-export default App
+export default App;
